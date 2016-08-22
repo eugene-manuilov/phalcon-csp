@@ -8,5 +8,10 @@
 			"email": "eugene.manuilov@gmail.com"
 		}
 	],
-	"require": {}
+	"require": {
+		
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^5.5"
+	}
 }
