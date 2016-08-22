@@ -31,16 +31,20 @@ class AssetsManagerTest extends \PHPUnit\Framework\TestCase {
 			'js'  => array(),
 		);
 
-		for ( $i = 0, $len = $faker->numberBetween( 1, 20 ); $i < $len; $i++ ) {
-			$url = $faker->url;
-			$expectedOrigins['css'][] = parse_url( $url, PHP_URL_HOST );
-			$manager->addCss( $url, false );
-		}
+		$types = array(
+			'css' => 'addCss',
+			'js'  => 'addJs',
+		);
 
-		for ( $i = 0, $len = $faker->numberBetween( 1, 20 ); $i < $len; $i++ ) {
-			$url = $faker->url;
-			$expectedOrigins['js'][] = parse_url( $url, PHP_URL_HOST );
-			$manager->addJs( $url, false );
+		foreach ( $types as $type => $callback ) {
+			for ( $i = 0, $len = $faker->numberBetween( 1, 20 ); $i < $len; $i++ ) {
+				$url = $faker->url;
+				$path = parse_url( $url, PHP_URL_PATH );
+				if ( '/' != $path ) {
+					$expectedOrigins[ $type ][] = substr( $url, 0, stripos( $url, $path ) );
+					call_user_func_array( array( $manager, $callback ), array( $url, false ) );
+				}
+			}
 		}
 
 		ob_start();

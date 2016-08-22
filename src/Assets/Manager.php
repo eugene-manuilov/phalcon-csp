@@ -55,15 +55,17 @@ class Manager extends \Phalcon\Assets\Manager {
 			$this->_origins[ $type ] = array();
 		}
 
+		$prefix = $collection->getPrefix();
 		foreach ( $collection->getResources() as $resource ) {
-			$uri = $resource->getRealTargetUri();
+			$uri = $prefix . $resource->getRealTargetUri();
 			if ( filter_var( $uri, FILTER_VALIDATE_URL ) ) {
-				$domain = parse_url( $uri, PHP_URL_HOST );
-				if ( ! empty( $domain ) ) {
-					$this->_origins[ $type ][ $domain ] = $domain;
+				$path = parse_url( $uri, PHP_URL_PATH );
+				$origin = substr( $uri, 0, stripos( $uri, $path ) );
+				if ( ! empty( $origin ) ) {
+					$this->_origins[ $type ][ $origin ] = $origin;
 				}
 			} else {
-				$this->_origins[ $type ]['self'] = 'self';
+				$this->_origins[ $type ]['self'] = "'self'";
 			}
 		}
 
