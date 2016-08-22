@@ -1,0 +1,12 @@
+{
+	"name": "eugene-manuilov/phalcon-csp",
+	"description": "Content Security Policy plugin for PhalconPHP framework.",
+	"type": "library",
+	"authors": [
+		{
+			"name": "Eugene Manuilov",
+			"email": "eugene.manuilov@gmail.com"
+		}
+	],
+	"require": {}
+}
