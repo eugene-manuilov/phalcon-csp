@@ -8,8 +8,12 @@
 			"email": "eugene.manuilov@gmail.com"
 		}
 	],
+	"autoload": {
+		"psr-4": {
+			"Phalcon\\Plugin\\CSP\\": "src"
+		}
+	},
 	"require": {
-		
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^5.5"
