@@ -14,6 +14,7 @@ use Phalcon\Mvc\Dispatcher;
 class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 
 	const DIRECTIVE_BASE_URI                  = 'base-uri';
+	const DIRECTIVE_DEFAULT_SRC               = 'default-src';
 	const DIRECTIVE_SCRIPT_SRC                = 'script-src';
 	const DIRECTIVE_STYLE_SRC                 = 'style-src';
 	const DIRECTIVE_CHILD_SRC                 = 'child-src';
@@ -29,6 +30,31 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 	const DIRECTIVE_UPGRADE_INSECURE_REQUESTS = 'upgrade-insecure-requests';
 
 	/**
+	 * Array of supported directives.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @static
+	 * @access protected
+	 * @var array
+	 */
+	protected static $_directives = array(
+        self::DIRECTIVE_BASE_URI,
+        self::DIRECTIVE_DEFAULT_SRC,
+        self::DIRECTIVE_CHILD_SRC,
+        self::DIRECTIVE_CONNECT_SRC,
+        self::DIRECTIVE_FONT_SRC,
+        self::DIRECTIVE_FORM_ACTION,
+        self::DIRECTIVE_FRAME_ANCESTORS,
+        self::DIRECTIVE_IMG_SRC,
+        self::DIRECTIVE_MEDIA_SRC,
+        self::DIRECTIVE_OBJECT_SRC,
+        self::DIRECTIVE_PLUGIN_TYPES,
+        self::DIRECTIVE_STYLE_SRC,
+        self::DIRECTIVE_SCRIPT_SRC,
+    );
+
+	/**
 	 * The array of policies.
 	 *
 	 * @since 1.0.0
@@ -39,15 +65,21 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 	protected $_policies = array();
 
 	/**
-	 * Adds a new policy to specific directive.
+	 * Adds a new policy to specific directive. Returns FALSE if a policy can't
+	 * be added.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @param string $directive The dirictive name to add policy to.
 	 * @param string $value The policy value.
+	 * @return boolean TRUE if policy has been added, otherwise FALSE.
 	 */
 	public function addPolicy( $directive, $value ) {
+		if ( ! in_array( $directive, self::$_directives ) ) {
+			return false;
+		}
+
 		if ( ! isset( $this->_policies[ $directive ] ) || ! is_array( $this->_policies[ $directive ] ) ) {
 			$this->_policies[ $directive ] = array();
 		}
@@ -55,6 +87,8 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 		if ( ! in_array( $value, $this->_policies[ $directive ] ) ) {
 			$this->_policies[ $directive ][] = $value;
 		}
+
+		return true;
 	}
 
 	/**
