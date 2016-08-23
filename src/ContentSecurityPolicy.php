@@ -13,6 +13,7 @@ use Phalcon\Mvc\Dispatcher;
  */
 class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 
+	const HEADER_NAME                         = 'Content-Security-Policy';
 	const DIRECTIVE_BASE_URI                  = 'base-uri';
 	const DIRECTIVE_DEFAULT_SRC               = 'default-src';
 	const DIRECTIVE_SCRIPT_SRC                = 'script-src';
@@ -117,6 +118,25 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 	}
 
 	/**
+	 * Compiles content security policies to send it in the header.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access public
+	 * @return string Compiled policies string.
+	 */
+	public function compilePolicies() {
+		$policies = array();
+		foreach ( $this->_policies as $directive => $values ) {
+			$policies[] = is_array( $values ) && ! empty( $values )
+				? $directive . ' ' . implode( ' ', $values )
+				: $directive;
+		}
+
+		return trim( implode( '; ', $policies ) );
+	}
+
+	/**
 	 * Builds CSP header and adds it to the response after exiting dispatch loop.
 	 *
 	 * @since 1.0.0
@@ -140,6 +160,22 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 					}
 				}
 			}
+		}
+
+		$this->addHeaderToResponse();
+	}
+
+	/**
+	 * Adds CSP header to response.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access public
+	 */
+	public function addHeaderToResponse() {
+		$policies = $this->compilePolicies();
+		if ( ! empty( $policies ) ) {
+			$this->response->setHeader( self::HEADER_NAME, $policies );
 		}
 	}
 
