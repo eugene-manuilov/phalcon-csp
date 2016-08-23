@@ -66,7 +66,9 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 
 	/**
 	 * Adds a new policy to specific directive. Returns FALSE if a policy can't
-	 * be added.
+	 * be added. If you want to set a report URI, then use setReportURI() method.
+	 * If you need to activate insecure requests upgrade, then use
+	 * setUpgradeInsecureRequests() method.
 	 *
 	 * @since 1.0.0
 	 *
@@ -89,6 +91,29 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Sets report-uri directive to log all violations of content security policy.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access public
+	 * @param string $uri The report URI.
+	 */
+	public function setReportURI( $uri ) {
+		$this->_policies[ self::DIRECTIVE_REPORT_URL ] = array( $uri );
+	}
+
+	/**
+	 * Sets upgrade-insecure-requests policy.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access public
+	 */
+	public function setUpgradeInsecureRequests() {
+		$this->_policies[ self::DIRECTIVE_UPGRADE_INSECURE_REQUESTS ] = true;
 	}
 
 	/**
