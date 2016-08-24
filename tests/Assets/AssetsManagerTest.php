@@ -47,7 +47,7 @@ class AssetsManagerTest extends \PHPUnit\Framework\TestCase {
 		$this->_manager->useImplicitOutput( false );
 
 		$this->_faker = FakerFactory::create();
-    }
+	}
 
 	/**
 	 * Tests origins gathering based on outputed resources.

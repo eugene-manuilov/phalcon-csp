@@ -40,20 +40,20 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 	 * @var array
 	 */
 	protected static $_directives = array(
-        self::DIRECTIVE_BASE_URI,
-        self::DIRECTIVE_DEFAULT_SRC,
-        self::DIRECTIVE_CHILD_SRC,
-        self::DIRECTIVE_CONNECT_SRC,
-        self::DIRECTIVE_FONT_SRC,
-        self::DIRECTIVE_FORM_ACTION,
-        self::DIRECTIVE_FRAME_ANCESTORS,
-        self::DIRECTIVE_IMG_SRC,
-        self::DIRECTIVE_MEDIA_SRC,
-        self::DIRECTIVE_OBJECT_SRC,
-        self::DIRECTIVE_PLUGIN_TYPES,
-        self::DIRECTIVE_STYLE_SRC,
-        self::DIRECTIVE_SCRIPT_SRC,
-    );
+		self::DIRECTIVE_BASE_URI,
+		self::DIRECTIVE_DEFAULT_SRC,
+		self::DIRECTIVE_CHILD_SRC,
+		self::DIRECTIVE_CONNECT_SRC,
+		self::DIRECTIVE_FONT_SRC,
+		self::DIRECTIVE_FORM_ACTION,
+		self::DIRECTIVE_FRAME_ANCESTORS,
+		self::DIRECTIVE_IMG_SRC,
+		self::DIRECTIVE_MEDIA_SRC,
+		self::DIRECTIVE_OBJECT_SRC,
+		self::DIRECTIVE_PLUGIN_TYPES,
+		self::DIRECTIVE_STYLE_SRC,
+		self::DIRECTIVE_SCRIPT_SRC,
+	);
 
 	/**
 	 * The array of policies.
