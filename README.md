@@ -28,18 +28,21 @@ $di->set( 'csp', function() {
 	return $csp;
 }, true );
 
-// add CSP to dispatcher's event listener
-$di->set( 'dispatcher', function() use ( $di ) {
+// register application and add CSP to event manager
+try {
     $csp = $di->getShared( 'csp' );
 
     $eventsManager = new \Phalcon\Events\Manager();
-    $eventsManager->attach( 'dispatch:afterDispatchLoop', $csp );
+    $eventsManager->attach( 'application:beforeSendResponse', $csp );
 
-    $dispatcher = new \Phalcon\Mvc\Dispatcher();
-    $dispatcher->setEventsManager( $eventsManager );
+    $application = new Application($di);
+    $application->setEventsManager( $eventsManager );
 
-    return $dispatcher;
-}, true );
+    $response = $application->handle();
+    $response->send();
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
 ```
 
 Now all your policies will be compiled into `Content-Security-Policy` header and added to the response instance. To add a new policy you need to call `addPolicy()` function which accepts policy name and a value:
