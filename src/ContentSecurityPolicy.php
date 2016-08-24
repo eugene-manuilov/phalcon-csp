@@ -3,7 +3,8 @@
 namespace Phalcon\Plugin\CSP;
 
 use Phalcon\Events\Event;
-use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Application;
+use Phalcon\Http\Response;
 
 /**
  * Content Security Policy plugin.
@@ -143,9 +144,10 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 	 *
 	 * @access public
 	 * @param \Phalcon\Events\Event $event The event object.
-	 * @param \Phalcon\Mvc\Dispatcher $dispatcher The dispatcher intsance.
+	 * @param \Phalcon\Mvc\Application $application The application intsance.
+	 * @param \Phalcon\Http\Response $response The response instance.
 	 */
-	public function afterDispatchLoop( Event $event, Dispatcher $dispatcher ) {
+	public function beforeSendResponse( Event $event, Application $application, Response $response ) {
 		if ( $this->assets instanceof \Phalcon\Plugin\CSP\Assets\Manager ) {
 			$types = array(
 				'css' => self::DIRECTIVE_STYLE_SRC,

@@ -11,27 +11,28 @@ use Phalcon\Plugin\CSP\ContentSecurityPolicy;
 class ContentSecurityPolicyTest extends \PHPUnit\Framework\TestCase {
 
 	/**
-	 * Tests whether afterDispatchLoop method is called when dispatcher exits
-	 * from dispatch loop.
+	 * Tests whether beforeSendResponse method is called when applications is
+	 * going to send response.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @access public
 	 */
-	public function testAfterDispatchLoop() {
+	public function testBeforeSendResponse() {
 		$di = new \Phalcon\Di\FactoryDefault();
 
 		$csp = $this->createMock( ContentSecurityPolicy::class );
-		$csp->expects( $this->once() )->method( 'afterDispatchLoop' );
+		$csp->expects( $this->once() )->method( 'beforeSendResponse' );
 		$csp->setDI( $di );
 
 		$eventsManager = new \Phalcon\Events\Manager();
-		$eventsManager->attach( 'dispatch:afterDispatchLoop', $csp );
+		$eventsManager->attach( 'application:beforeSendResponse', $csp );
 
-		$dispatcher = new \Phalcon\Mvc\Dispatcher();
-		$dispatcher->setDI( $di );
-		$dispatcher->setEventsManager( $eventsManager );
-		$dispatcher->dispatch();
+		$application = new \Phalcon\Mvc\Application();
+		$application->setDI( $di );
+		$application->setEventsManager( $eventsManager );
+		$application->useImplicitView( false );
+		$application->handle();
 	}
 
 	/**
