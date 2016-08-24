@@ -3,6 +3,15 @@ Content Security Policy for Phalcon Framework
 
 This plugin allows you to add CSP policies to your Phalcon based website. Content Security Policy (CSP) is a security standard to prevent cross-site scripting (XSS), clickjacking and other code injection attacks. Take a look at [An Introduction to Content Security Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/) article for more details.
 
+Installation
+-----------
+
+Just use composer to install it:
+
+```
+$ composer require eugene-manuilov/phalcon-csp
+```
+
 Usage
 -----------
 
