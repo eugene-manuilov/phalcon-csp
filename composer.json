@@ -1,11 +1,25 @@
 {
 	"name": "eugene-manuilov/phalcon-csp",
 	"description": "Content Security Policy plugin for PhalconPHP framework.",
+	"version": "1.0.0",
 	"type": "library",
+	"keywords": [
+		"php",
+		"phalcon",
+		"phalconphp",
+		"dispatcher",
+		"response",
+		"content security policy",
+		"xss",
+		"X-Frame-Options",
+		"X-XSS-Protection"
+	],
+	"license": "MIT",
 	"authors": [
 		{
 			"name": "Eugene Manuilov",
-			"email": "eugene.manuilov@gmail.com"
+			"email": "eugene.manuilov@gmail.com",
+            "role": "Developer"
 		}
 	],
 	"autoload": {
