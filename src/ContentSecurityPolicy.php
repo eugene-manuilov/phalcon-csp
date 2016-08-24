@@ -160,6 +160,20 @@ class ContentSecurityPolicy extends \Phalcon\Mvc\User\Plugin {
 					}
 				}
 			}
+
+			$types = array(
+				'style'  => self::DIRECTIVE_STYLE_SRC,
+				'script' => self::DIRECTIVE_SCRIPT_SRC,
+			);
+
+			foreach ( $types as $type => $directive ) {
+				$nonces = $this->assets->getNonces( $type );
+				if ( ! empty( $nonces ) ) {
+					foreach ( $nonces as $nonce ) {
+						$this->addPolicy( $directive, "'nonce-{$nonce}'" );
+					}
+				}
+			}
 		}
 
 		$this->addHeaderToResponse();
